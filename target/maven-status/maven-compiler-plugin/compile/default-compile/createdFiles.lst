@@ -1,0 +1,3 @@
+br/com/thnocard/board/persistence/config/config/ConnectionConfig.class
+br/com/thnocard/board/persistence/config/migration/StrategyMigri.class
+br/com/thnocard/board/Main.class
