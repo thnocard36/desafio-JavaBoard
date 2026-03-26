@@ -1,9 +1,10 @@
-Database is up to date, no changesets to execute
+Running Changeset: db.changelog/migrations/db.changelog-202603261530.sql::202603261530::thnocard36
 
 UPDATE SUMMARY
-Run:                          0
-Previously run:               1
+Run:                          1
+Previously run:               3
 Filtered out:                 0
 -------------------------------
-Total change sets:            1
+Total change sets:            4
 
+Liquibase: Update has been successful. Rows affected: 1

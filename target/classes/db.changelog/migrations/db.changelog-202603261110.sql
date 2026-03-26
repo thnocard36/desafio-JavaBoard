@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset thnocard36:202603261110
---coment: boards table create
+--comment: boards table create
 
     CREATE TABLE Boards(
         id INT AUTO_INCREMENT PRIMARY KEY,
