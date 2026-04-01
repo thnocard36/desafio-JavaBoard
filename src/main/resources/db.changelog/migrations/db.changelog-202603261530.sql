@@ -2,7 +2,7 @@
 --changeset thnocard36:202603261530
 --comment: blocks table create
 
-    CREATE TABLE Blocks(
+    CREATE TABLE IF NOT EXISTS Blocks(
         id INT AUTO_INCREMENT PRIMARY KEY,
         block_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         block_reason VARCHAR(255) NOT NULL,

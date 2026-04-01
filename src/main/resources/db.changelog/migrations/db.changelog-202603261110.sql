@@ -2,7 +2,7 @@
 --changeset thnocard36:202603261110
 --comment: boards table create
 
-    CREATE TABLE Boards(
+    CREATE TABLE IF NOT EXISTS Boards (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL
     ) ENGINE=InnoDB;
