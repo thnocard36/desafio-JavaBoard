@@ -2,7 +2,7 @@
 --changeset thnocard36:202603261515
 --comment: boards_columns table create
 
-    CREATE TABLE IF NOT EXISTS Boards_Columns(
+    CREATE TABLE IF NOT EXISTS Boards_Columns (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         `order` INT NOT NULL,

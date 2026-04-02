@@ -1,6 +1,7 @@
 package br.com.thnocard.board;
 
 import br.com.thnocard.board.persistence.config.migration.StrategyMigri;
+import br.com.thnocard.board.ui.MainMenu;
 
 import java.sql.SQLException;
 
@@ -13,6 +14,8 @@ public class Main {
         try(var connection = getConnection()) {
             new StrategyMigri(connection).executeMigration();
         }
+
+        new MainMenu().execute();
 
     }
 }

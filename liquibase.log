@@ -1,10 +1,10 @@
-Running Changeset: db.changelog/migrations/db.changelog-202603261530.sql::202603261530::thnocard36
+ERROR: Exception Details
+ERROR: Exception Primary Class:  ValidationFailedException
+ERROR: Exception Primary Reason:  Validation Failed:
+     4 changesets check sum
+          db.changelog/migrations/db.changelog-202603261110.sql::202603261110::thnocard36 was: 9:7aa2bfb3f8b6187113e84f5be72f6b96 but is now: 9:e8e26484249d99d6f93f1705d1d73469
+          db.changelog/migrations/db.changelog-202603261515.sql::202603261515::thnocard36 was: 9:caf2e22f4ab09086d64806505b4043c6 but is now: 9:228eb7a9313d78fdea68d5ec6e161d0b
+          db.changelog/migrations/db.changelog-202603261525.sql::202603261525::thnocard36 was: 9:c27497ea40f54b2bf523a895613b5e46 but is now: 9:fb9a13d2c7f91c9f01651f3a784ed7ff
+          db.changelog/migrations/db.changelog-202603261530.sql::202603261530::thnocard36 was: 9:ba7cb5c09e6d19cecf6c5dc8f6e15100 but is now: 9:4c860d4230458fd9900a0316a7003add
 
-UPDATE SUMMARY
-Run:                          1
-Previously run:               3
-Filtered out:                 0
--------------------------------
-Total change sets:            4
-
-Liquibase: Update has been successful. Rows affected: 1
+ERROR: Exception Primary Source:  4.31.1

@@ -15,7 +15,7 @@ public class BoardDAO {
 
     // Metodo de inseração
     public BoardEntity insert(final BoardEntity entity) throws SQLException {
-        var sql = "'INSERT INTO FROM Boards (name) VALUES (?);'";
+        var sql = "INSERT INTO Boards (name) VALUES (?)";
         try(var statement = connection.prepareStatement(sql)) {
             statement.setString(1, entity.getName());
             statement.executeUpdate();
@@ -28,7 +28,7 @@ public class BoardDAO {
 
     // Metodo de exclução / apagar.
     public void delete(final Long id) throws SQLException {
-        var sql = "'DELETE FROM Boards WHERE id = ?;'";
+        var sql = "DELETE FROM Boards WHERE id = ?";
         try(var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             statement.executeUpdate();
@@ -36,7 +36,7 @@ public class BoardDAO {
     }
 
     public Optional<BoardEntity> findById(final Long id) throws SQLException {
-        var sql = "'SELECT id, name FROM Boards WHERE id = ?;'";
+        var sql = "SELECT id, name FROM Boards WHERE id = ?";
         try(var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             statement.executeQuery();
@@ -52,7 +52,7 @@ public class BoardDAO {
     }
 
     public boolean exists(final Long id) throws SQLException {
-        var sql = "'SELECT 1 FROM Boards WHERE id; = ?'";
+        var sql = "SELECT 1 FROM Boards WHERE id = ?";
         try(var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             statement.executeQuery();

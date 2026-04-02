@@ -1,12 +1,16 @@
 package br.com.thnocard.board.persistence.config.dao;
 
 import br.com.thnocard.board.persistence.config.entity.BoardColumnEntity;
+import br.com.thnocard.board.persistence.config.entity.BoardColumnKindEnum;
 import com.mysql.cj.jdbc.StatementImpl;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static br.com.thnocard.board.persistence.config.entity.BoardColumnKindEnum.findByName;
 
 @RequiredArgsConstructor
 public class BoardColumnDAO {
@@ -14,7 +18,7 @@ public class BoardColumnDAO {
     private final Connection connection;
 
     public BoardColumnEntity insert(final BoardColumnEntity entity) throws SQLException {
-        var sql = "'INSERT INTO boards_columns (name, `order`, kind, board_id) VALUES (?, ?, ?, ?);'";
+        var sql = "INSERT INTO Boards_Columns (name, `order`, kind, board_id) VALUES (?, ?, ?, ?);";
         try (var statement = connection.prepareStatement(sql)){
             var i = 1;
             statement.setString(i ++, entity.getName());
@@ -30,7 +34,22 @@ public class BoardColumnDAO {
         }
     }
 
-    public List<BoardColumnEntity> findByBoardid(Long id) throws SQLException {
-        return null;
+    public List<BoardColumnEntity> findByBoardid(final Long id) throws SQLException {
+        List<BoardColumnEntity> entities = new ArrayList<>();
+        var sql = "SELECT * FROM Boards_Columns WHERE board_id = ? ORDER BY `order`";
+        try(var statement = connection.prepareStatement(sql)){
+            statement.setLong(1, id);
+            statement.executeQuery();
+            var resultSet = statement.getResultSet();
+            while(resultSet.next()) {
+                var entity = new BoardColumnEntity();
+                entity.setId(resultSet.getLong("id"));
+                entity.setName(resultSet.getString("name"));
+                entity.setOrder(resultSet.getInt("order"));
+                entity.setKind(findByName(resultSet.getString("kind")));
+                entities.add(entity);
+            }
+        }
+        return entities;
     }
 }

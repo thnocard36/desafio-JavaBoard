@@ -11,11 +11,4 @@ public class BoardColumnEntity {
     private BoardColumnKindEnum kind;
     private BoardEntity board = new BoardEntity();
 
-    /**
-     * d INT AUTO_INCREMENT PRIMARY KEY,
-     *         name VARCHAR(255) NOT NULL,
-     *         `order` INT NOT NULL,
-     *         kind VARCHAR(7) NOT NULL,
-     *         board_id INT NOT NULL,
-     */
 }
