@@ -1,7 +1,8 @@
 package br.com.thnocard.board.persistence.config.entity;
 
 import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringExclude;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ public class BoardEntity {
 
     private Long id;
     private String name;
-    @ToStringExclude
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<BoardColumnEntity> boardColumns = new ArrayList<>();
 
 }
