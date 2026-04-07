@@ -2,14 +2,18 @@ package br.com.thnocard.board.ui;
 
 import br.com.thnocard.board.persistence.config.entity.BoardColumnEntity;
 import br.com.thnocard.board.persistence.config.entity.BoardEntity;
+import br.com.thnocard.board.persistence.config.entity.CardEntity;
 import br.com.thnocard.board.services.BoardColumnQueryService;
 import br.com.thnocard.board.services.BoardQueryService;
+import br.com.thnocard.board.services.CardQueryService;
+import br.com.thnocard.board.services.CardService;
 import lombok.AllArgsConstructor;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 import static br.com.thnocard.board.persistence.config.config.ConnectionConfig.getConnection;
+import static br.com.thnocard.board.persistence.config.entity.BoardColumnKindEnum.INITIAL;
 
 @AllArgsConstructor
 public class BoardMenu {
@@ -31,7 +35,7 @@ public class BoardMenu {
                 System.out.println("3- Bloquear um card");
                 System.out.println("4- Desbloquear um card");
                 System.out.println("5- Cancelar um card");
-                System.out.println("6- Vizualiar colunas");
+                System.out.println("6- Vizualizar board");
                 System.out.println("7- Vizualizar coluna com cards");
                 System.out.println("8- Vizualizar cards");
                 System.out.println("9- Voltar ao menú anterior um card");
@@ -68,7 +72,19 @@ public class BoardMenu {
         }
     }
 
-    private void createCard() {
+    // Alguns Métodos do Menú.
+    private void createCard() throws SQLException {
+        var card = new CardEntity();
+        System.out.println("Informe o Titulo do Card");
+        card.setTitle(scanner.next());
+
+        System.out.println("Informe a Descrição Card");
+        card.setDescription(scanner.next());
+        card.setBoardColumn(entity.getBoardColumn());
+
+        try(var connection = getConnection()) {
+            new CardService(connection).insert(card);
+        }
     }
 
     private void moveCardToNextColumn() {
@@ -94,6 +110,7 @@ public class BoardMenu {
                 });
             });
         }
+        System.out.println();
     }
 
     private void showColumn() throws SQLException{
@@ -116,6 +133,25 @@ public class BoardMenu {
         }
     }
 
-    private void showCard() {
+    private void showCard() throws SQLException {
+
+        System.out.println("Informe o id do card que deseja visualizar:");
+        var selectedCardId = scanner.nextLong();
+
+        try(var connection = getConnection()) {
+            new CardQueryService(connection).findById(selectedCardId)
+                    .ifPresentOrElse(
+                            c ->{
+                                System.out.printf("Card %s - %s \n", c.id(), c.title());
+                                System.out.printf("Descrição: %s \n", c.description());
+                                System.out.println(c.blocked() ?
+                                        "Está bloqueado. Por motivo: %s." + c.blockReason() :
+                                        "Não está bloqueado!");
+                                System.out.printf("Já foi bloqueado %s vezes.", c.blockAmount());
+                                System.out.printf("Está no momento na coluna %s - %s. \n", c.columnId(), c.columnName());
+                            },
+                            () -> System.out.printf("Não existe um card com o id %s. \n", selectedCardId));
+        }
+        System.out.println();
     }
 }

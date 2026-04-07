@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static br.com.thnocard.board.persistence.config.entity.BoardColumnKindEnum.findByName;
+import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
 public class BoardColumnDAO {
@@ -62,12 +63,12 @@ public class BoardColumnDAO {
                     SELECT bc.id,
                            bc.name,
                            bc.kind,
-                           COUNT(SELECT c.id
+                           (SELECT COUNT(c.id)
                            FROM Cards c
                            WHERE c.board_column_id = bc.id) cards_amount
                     FROM Boards_Columns bc
                     WHERE board_id = ?
-                    ORDER BY `order`
+                    ORDER BY `order`;
                     """;
         try(var statement = connection.prepareStatement(sql)){
             statement.setLong(1, boardId);
@@ -98,7 +99,7 @@ public class BoardColumnDAO {
                    c.title,
                    c.description
               FROM Boards_Columns bc
-              INNER JOIN Cards c
+              LEFT JOIN Cards c
                 ON c.board_column_id = bc.id
               WHERE bc.id = ?;
         """;
@@ -114,12 +115,16 @@ public class BoardColumnDAO {
                 entity.setKind(findByName(resultSet.getString("bc.kind")));
 
                 do {
+                    if(isNull(resultSet.getString("c.title"))) {
+                        break;
+                    }
                     var card = new CardEntity();
                     card.setId(resultSet.getLong("c.id"));
                     card.setTitle(resultSet.getString("c.title"));
                     card.setDescription(resultSet.getString("c.description"));
                     entity.getCards().add(card);
                 } while(resultSet.next());
+                return Optional.of(entity);
             }
         }
             return Optional.empty();
