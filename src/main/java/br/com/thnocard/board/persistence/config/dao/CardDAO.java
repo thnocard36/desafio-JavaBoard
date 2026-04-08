@@ -18,7 +18,7 @@ public class CardDAO {
     private Connection connection;
 
     public CardEntity insert(final CardEntity entity) throws SQLException {
-        var sqlCon = "INSERT INTO CARDS (title, description, board_column_id) VALUES (?, ?, ?)";
+        var sqlCon = "INSERT INTO Cards(title, description, board_column_id) VALUES (?, ?, ?);";
         try(var statement = connection.prepareStatement(sqlCon)) {
             var i = 1;
             statement.setString(i++, entity.getTitle());
